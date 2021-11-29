@@ -1,10 +1,13 @@
 import type { NextPage } from "next";
 import Link from "next/link";
 import { useState } from "react";
+import useUser from "../../lib/useUser";
 
 const Header: NextPage = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const { user } = useUser();
 
   return (
     <header>
@@ -34,13 +37,13 @@ const Header: NextPage = () => {
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 hover:text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
               </svg>
-              <span>Username</span>
+              <span>{user && user.payload?.displayName}</span>
             </button>
           </div>
           {dropdownOpen &&
             <div className="absolute top-8 right-0 p-2 mt-2 w-48 bg-white rounded-md overflow-hidden shadow-xl z-20">
               <button onClick={() => setLoading(true)} className="w-full">
-                <Link href='/logout' >
+                <Link href='api/logout' >
                   <a className="block px-4 py-2 text-sm text-gray-800 border-b hover:bg-gray-200">Sign out</a>
                 </Link>
               </button>

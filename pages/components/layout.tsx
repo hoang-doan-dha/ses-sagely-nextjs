@@ -17,7 +17,7 @@ const Layout: NextPage = ({ children }) => {
           <meta name="twitter:card" content="summary_large_image" />
       </Head>
 
-      <Header/>
+      <Header />
 
       <main className="content-area">
         {children}
