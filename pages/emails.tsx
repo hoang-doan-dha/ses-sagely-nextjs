@@ -3,6 +3,9 @@ import { getEmails } from "../lib/emails";
 import Link from "next/link";
 import Head from "next/head";
 import Layout from "./components/layout";
+import axios from "axios";
+import { useState } from "react";
+import { useRouter } from "next/router";
 
 export interface Email {
   filename: string,
@@ -16,7 +19,6 @@ export interface Email {
 export async function getStaticProps() {
   // Fetch necessary data
   const emails = getEmails();
-  console.log("🚀 ~ file: emails.tsx ~ line 9 ~ getStaticProps ~ emails", emails)
   return {
     props: {
       emails
@@ -28,7 +30,8 @@ type Props = {
   emails: Email[]
 };
 
-const EmailItem: React.FC<{ file: Email }> = ({ file }) => {
+const EmailItem: React.FC<{ file: Email, onDelete: Function }> = ({ file, onDelete }) => {
+
   return (
     <>
       <div>
@@ -43,7 +46,7 @@ const EmailItem: React.FC<{ file: Email }> = ({ file }) => {
           Created Date: {file.stat?.ctime}
         </div>
       </div>
-      <button className="rounded-lg bg-red-400 hover:bg-red-700 px-4">
+      <button onClick={() => onDelete(file.filename)} className="rounded-lg bg-red-400 hover:bg-red-700 px-4">
         DELETE
       </button>
     </>
@@ -51,7 +54,27 @@ const EmailItem: React.FC<{ file: Email }> = ({ file }) => {
 }
 
 const Emails: NextPage<Props> = ({ emails }) => {
-  console.log("🚀 ~ file: emails.tsx ~ line 19 ~ emails", emails)
+  // const [mails, setMails] = useState(emails);
+  const router = useRouter();
+
+  // Call this function whenever you want to
+  // refresh props!
+  const refreshData = () => {
+    router.replace(router.asPath);
+  }
+
+  const handleDelete = async (filename: string) => {
+    try {
+      const data = await axios.delete(`api/emails/${filename}`);
+      if (data.status === 200) {
+        refreshData();
+      }
+    } catch (error) {
+      console.log("🚀 ~ file: emails.tsx ~ line 35 ~ handleDelete ~ error", error)
+      alert(JSON.stringify(error, null, 2));
+    }
+  }
+
   return (
     <Layout>
       <Head>
@@ -64,7 +87,7 @@ const Emails: NextPage<Props> = ({ emails }) => {
         <ul>
           {emails && emails.map((item: any) => 
             <li key={item.filename} className="py-4 px-8 mx-4 mb-2 lg:mx-32 bg-white shadow-lg rounded-lg flex justify-between">
-              <EmailItem file={item} />
+              <EmailItem file={item} onDelete={handleDelete} />
             </li>)
           }
         </ul>

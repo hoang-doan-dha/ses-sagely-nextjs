@@ -25,13 +25,17 @@ const Communications: NextPage = () => {
     if (isRunning) {
       return;
     }
-    setIsRunning(true);
-    const res: any = await axios.post('/api/communications', {
-      command
-    });
-    console.log("🚀 ~ file: communications.tsx ~ line 25 ~ handleSubmit ~ res", res)
-    if (res.data) {
-      setOutput(res.data.response);
+    try {
+      setIsRunning(true);
+      const res: any = await axios.post('/api/communications', {
+        command
+      });
+      if (res.data) {
+        setOutput(res.data.response);
+      }
+    } catch (error) {
+      console.log("🚀 ~ file: communications.tsx ~ line 37 ~ handleSubmit ~ error", error)
+      alert(JSON.stringify(error, null, 2));
     }
     setIsRunning(false);
   }

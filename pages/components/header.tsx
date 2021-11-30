@@ -3,9 +3,12 @@ import Link from "next/link";
 import { useState } from "react";
 import useUser from "../../lib/useUser";
 
-const Header: NextPage = () => {
+type Props = {
+  onLogout: Function
+}
+
+const Header: NextPage<Props> = ({ onLogout }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const { user } = useUser();
 
@@ -42,10 +45,8 @@ const Header: NextPage = () => {
           </div>
           {dropdownOpen &&
             <div className="absolute top-8 right-0 p-2 mt-2 w-48 bg-white rounded-md overflow-hidden shadow-xl z-20">
-              <button onClick={() => setLoading(true)} className="w-full">
-                <Link href='api/logout' >
-                  <a className="block px-4 py-2 text-sm text-gray-800 border-b hover:bg-gray-200">Sign out</a>
-                </Link>
+              <button onClick={() => onLogout()} className="w-full block px-4 py-2 text-sm text-gray-800 border-b hover:bg-gray-200">
+                Sign out
               </button>
             </div>
           }

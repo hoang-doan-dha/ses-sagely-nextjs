@@ -1,10 +1,25 @@
 import Head from "next/head";
 import type { NextPage } from 'next'
 import Header from "./header";
+import Router from "next/router";
+import axios from "axios";
 
 export const siteTitle = 'Sagely SES Mock'
 
 const Layout: NextPage = ({ children }) => {
+
+  const handleLogout = async () => {
+    try {
+      const res = await axios.get('/api/logout');
+      if (res.status === 200) {
+        Router.push('/login');
+      }
+    } catch (error) {
+      alert(JSON.stringify(error, null, 2));
+      console.log("🚀 ~ file: index.tsx ~ line 22 ~ handleLogout ~ error", error)
+    }
+  }
+
   return (
     <div className="h-full">
       <Head>
@@ -17,7 +32,7 @@ const Layout: NextPage = ({ children }) => {
           <meta name="twitter:card" content="summary_large_image" />
       </Head>
 
-      <Header />
+      <Header onLogout={handleLogout} />
 
       <main className="content-area">
         {children}

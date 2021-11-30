@@ -3,13 +3,14 @@ import Router from 'next/router'
 import useSWR from 'swr'
 import { User } from '../pages/api/login';
 
-const fetcher = (...args: any[]) => fetch(...args).then(res => res.json())
+// const fetcher = (...args: any[]) => fetch(...args).then(res => res.json())
 
 export default function useUser({
   redirectTo = '',
   redirectIfFound = false,
 } = {}) {
-  const { data: user, mutate: mutateUser } = useSWR<User>('/api/user', fetcher)
+  // No need to add a fetcher here since we already added it on _app globally
+  const { data: user, mutate: mutateUser } = useSWR<User>('/api/user')
 
   useEffect(() => {
     // if no redirect needed, just return (example: already on /dashboard)

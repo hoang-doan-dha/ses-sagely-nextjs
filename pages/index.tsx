@@ -1,19 +1,37 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
 import useUser from '../lib/useUser'
 import styles from '../styles/Home.module.css'
 import HomeContent from './components/homeContent'
 import Layout from './components/layout'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import Router from 'next/router'
 
-
-const Home = () => {
+const Home: NextPage = () => {
   const { user } = useUser({
     redirectTo: '/login'
   });
-  console.log("🚀 ~ file: index.tsx ~ line 14 ~ Home ~ user", user)
+
+
+  // It still render the page first then hooking API to check isLoggedIn or not
+  if (!user || !user?.isLoggedIn) {
+    return (
+      <div className="h-screen d-flex align-center justify-center">
+        <div className="animate-spin h-5 w-5 mr-3 text-white">
+          <FontAwesomeIcon icon={faSpinner} />
+        </div>
+      </div>
+    )
+  }
+
+  // return (
+  //   <div className="h-screen d-flex align-center justify-center">
+  //     <div className="animate-spin h-5 w-5 mr-3 text-white">
+  //       <FontAwesomeIcon icon={faSpinner} />
+  //     </div>
+  //   </div>
+  // )
 
   return (
     <Layout>
