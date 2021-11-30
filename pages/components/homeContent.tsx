@@ -14,6 +14,12 @@ const homeList = [
     description: 'Run every "grunt" command line to invoke lambda function from this site.',
     urlEndpoint: 'communications',
   },
+  {
+    title: 'Family Users',
+    repository: '',
+    description: 'To activate the family user account in order to log in on the family app',
+    urlEndpoint: 'familyUsers',
+  },
 ];
 
 const HomeContent: NextPage = () => {

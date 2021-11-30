@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import { User } from '../pages/api/login';
 
-const API_URL = 'http://54.255.38.53:7111';
+export const API_URL = 'http://54.255.38.53:7111';
 
 type LoginPayload = {
   username: string,

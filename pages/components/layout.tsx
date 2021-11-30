@@ -12,6 +12,7 @@ const Layout: NextPage = ({ children }) => {
     try {
       const res = await axios.get('/api/logout');
       if (res.status === 200) {
+        console.log("🚀 ~ file: layout.tsx ~ line 15 ~ handleLogout ~ res", res)
         Router.push('/login');
       }
     } catch (error) {

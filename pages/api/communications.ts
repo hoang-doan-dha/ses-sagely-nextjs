@@ -37,6 +37,13 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
 ) {
+  const user = req.session.user
+
+  if (!user || user.isLoggedIn === false) {
+    res.status(401).end()
+    return
+  }
+  
   if (req.method === 'POST') {
     // Process a POST request
     try {
